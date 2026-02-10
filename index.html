@@ -17,7 +17,6 @@
       margin: 0;
       overflow: hidden;
       font-family: Arial, sans-serif;
-
       background-color: #ffc0cb;
       background-image: url("https://www.transparenttextures.com/patterns/hearts.png");
     }
@@ -30,33 +29,36 @@
     }
 
     .buttons {
-      position: relative;
-      width: 300px;
-      height: 100px;
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Placeholder keeps layout stable */
+    .no-wrapper {
+      width: 120px;
+      height: 50px;
     }
 
     button {
-      width: 120px;              /* 🔒 lock width */
-      height: 50px;              /* 🔒 lock height */
-      padding: 0;
+      width: 120px;
+      height: 50px;
       font-size: 1.2rem;
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      position: absolute;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
     }
 
     #yesBtn {
       background-color: #ff69b4;
       color: white;
-      left: 40px;
     }
 
     #noBtn {
       background-color: #f06292;
       color: white;
-      right: 40px;
     }
 
     #result {
@@ -74,19 +76,23 @@
     <h1>Will you be my Valentine? ❤️</h1>
     <div class="buttons">
       <button id="yesBtn" onclick="sayYes()">Yes</button>
-      <button id="noBtn" onmouseover="moveNo()">No</button>
+
+      <!-- Placeholder wrapper -->
+      <div class="no-wrapper">
+        <button id="noBtn" onmouseover="moveNo()">No</button>
+      </div>
     </div>
   </div>
 
   <div id="result">
     <h1>Yaaayy! See you on Valentine’s Day 💖</h1>
+    <p>(Don't forget to bring my gifts 😂)</p>
   </div>
 
   <script>
     function moveNo() {
       const noBtn = document.getElementById('noBtn');
 
-      // Keep size fixed
       noBtn.style.position = 'fixed';
 
       const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
