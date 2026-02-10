@@ -3,17 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>Valentine's Day Page</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffcccb;
             font-family: Arial, sans-serif;
-            text-align: center;
-            background: #f0f0f0;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #no {
+            background-color: #f44336;
+            color: white;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        #no:active {
+            transform: translate(10px, -10px);
         }
     </style>
 </head>
 <body>
-    <h1>Hello! 👋</h1>
-    <p>Welcome to my website</p>
+    <h1>Will you be my valentine?</h1>
+    <button id="yes" onclick="showConfirmation()">Yes</button>
+    <button id="no" disabled>No</button>
+
+    <script>
+        function showConfirmation() {
+            alert('Yay! Thank you for being my valentine!');
+        }
+    </script>
 </body>
 </html>
