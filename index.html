@@ -1,84 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Day</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background: linear-gradient(45deg, #FF6F61, #6FA3EF);
-            overflow: hidden;
-        }
-        h1 {
-            color: white;
-            font-size: 3em;
-            position: relative;
-            z-index: 1;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 1.5em;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            transition: transform 0.2s ease;
-        }
-        .yes-button {
-            background: #4CAF50;
-            color: white;
-        }
-        .no-button {
-            background: #f44336;
-            color: white;
-        }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #FF0;
-            animation: fall 4s infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
-    </style>
+<title>Valentine Invitation</title>
+<!-- Import the Confetti Library -->
+<script src="https://cdn.jsdelivr.net"></script>
+
+<style>
+body {
+display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
+background: #ffc0cb; /* Lighter Pink background */
+font-family: 'Arial', sans-serif; overflow: hidden;
+margin: 0; /* Remove default body margin */
+}
+h1 {
+color: #e91e63; /* Deep Pink text */
+font-size: 3rem;
+}
+.buttons { position: relative; width: 300px; height: 100px; display: flex; justify-content: center; align-items: center; }
+button {
+padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 25px; cursor: pointer; transition: 0.2s; position: absolute;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#yesBtn {
+background-color: #ff69b4; /* Hot Pink */
+color: white; left: 50px; z-index: 2;
+}
+#noBtn {
+background-color: #f06292; /* Lighter deep pink */
+color: white; right: 50px; z-index: 1; transition: 0.1s;
+}
+#result {
+display: none; text-align: center; font-size: 2rem;
+color: #d81b60; /* Another deep pink shade */
+z-index: 3; /* Ensure text is above confetti */
+position: relative;
+}
+</style>
 </head>
 <body>
-    <h1>Will you be my valentine?</h1>
-    <button class="yes-button">Yes</button>
-    <button class="no-button">No</button>
-    <script>
-        const yesButton = document.querySelector('.yes-button');
-        const noButton = document.querySelector('.no-button');
+<div id="ask">
+<h1>Will you be my valentine? ❤️</h1>
+<div class="buttons">
+<button id="yesBtn" onclick="sayYes()">Yes</button>
+<button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No</button>
+</div>
+</div>
+<div id="result">
+<h1>Yaayy, See you on valentine’s day! 💖</h1>
+</div>
 
-        yesButton.addEventListener('click', () => {
-            document.body.innerHTML = '<h1>Yaayy, See you on Valentine\'s day!</h1>';
-            document.body.style.background = 'pink';
-            // Add celebration animation (optional)
-        });
+<script>
+function moveNo() {
+const noBtn = document.getElementById('noBtn');
+const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+noBtn.style.position = 'fixed';
+noBtn.style.left = x + 'px';
+noBtn.style.top = y + 'px';
+}
 
-        noButton.addEventListener('mouseover', () => {
-            noButton.style.position = 'absolute';
-            noButton.style.top = Math.random() * 100 + 'vh';
-            noButton.style.left = Math.random() * 100 + 'vw';
-        });
+function sayYes() {
+// 1. Swap the display message
+document.getElementById('ask').style.display = 'none';
+document.getElementById('result').style.display = 'block';
 
-        // Generate confetti
-        for(let i = 0; i < 100; i++) {
-            let confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-            document.body.appendChild(confetti);
-        }
-    </script>
+// 2. Trigger the continuous confetti background
+startConfettiBackground();
+}
+
+// Function to run continuous confetti
+function startConfettiBackground() {
+const colors = ['#ffc0cb', '#ff69b4', '#e91e63', '#d81b60', '#f06292'];
+const duration = 15 * 1000; // Run for 15 seconds (adjust as needed)
+const animationEnd = Date.now() + duration;
+
+(function frame() {
+// Launch a burst from the left side
+confetti({
+particleCount: 2,
+angle: 60,
+spread: 55,
+origin: { x: 0 },
+colors: colors
+});
+// Launch a burst from the right side
+confetti({
+particleCount: 2,
+angle: 120,
+spread: 55,
+origin: { x: 1 },
+colors: colors
+});
+
+// Keep animation running until 'animationEnd' time is reached
+if (Date.now() < animationEnd) {
+requestAnimationFrame(frame);
+}
+}());
+}
+</script>
 </body>
 </html>
