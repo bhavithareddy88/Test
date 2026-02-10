@@ -1,103 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Valentine Invitation</title>
-<!-- Import the Confetti Library -->
-<script src="https://cdn.jsdelivr.net"></script>
+  <meta charset="UTF-8">
+  <title>Valentine Invitation</title>
 
-<style>
-body {
-display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
-background: #ffc0cb; /* Lighter Pink background */
-font-family: 'Arial', sans-serif; overflow: hidden;
-margin: 0; /* Remove default body margin */
-}
-h1 {
-color: #e91e63; /* Deep Pink text */
-font-size: 3rem;
-}
-.buttons { position: relative; width: 300px; height: 100px; display: flex; justify-content: center; align-items: center; }
-button {
-padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 25px; cursor: pointer; transition: 0.2s; position: absolute;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-#yesBtn {
-background-color: #ff69b4; /* Hot Pink */
-color: white; left: 50px; z-index: 2;
-}
-#noBtn {
-background-color: #f06292; /* Lighter deep pink */
-color: white; right: 50px; z-index: 1; transition: 0.1s;
-}
-#result {
-display: none; text-align: center; font-size: 2rem;
-color: #d81b60; /* Another deep pink shade */
-z-index: 3; /* Ensure text is above confetti */
-position: relative;
-}
-</style>
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+
+      background-color: #ffc0cb;
+      background-image: url("https://www.transparenttextures.com/patterns/hearts.png");
+    }
+
+    h1 {
+      color: #e91e63;
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      position: relative;
+      width: 300px;
+      height: 100px;
+    }
+
+    button {
+      width: 120px;              /* 🔒 lock width */
+      height: 50px;              /* 🔒 lock height */
+      padding: 0;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      position: absolute;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    #yesBtn {
+      background-color: #ff69b4;
+      color: white;
+      left: 40px;
+    }
+
+    #noBtn {
+      background-color: #f06292;
+      color: white;
+      right: 40px;
+    }
+
+    #result {
+      display: none;
+      text-align: center;
+      color: #d81b60;
+      z-index: 10;
+    }
+  </style>
 </head>
+
 <body>
-<div id="ask">
-<h1>Will you be my valentine? ❤️</h1>
-<div class="buttons">
-<button id="yesBtn" onclick="sayYes()">Yes</button>
-<button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No</button>
-</div>
-</div>
-<div id="result">
-<h1>Yaayy, See you on valentine’s day! 💖</h1>
-</div>
 
-<script>
-function moveNo() {
-const noBtn = document.getElementById('noBtn');
-const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-noBtn.style.position = 'fixed';
-noBtn.style.left = x + 'px';
-noBtn.style.top = y + 'px';
-}
+  <div id="ask">
+    <h1>Will you be my Valentine? ❤️</h1>
+    <div class="buttons">
+      <button id="yesBtn" onclick="sayYes()">Yes</button>
+      <button id="noBtn" onmouseover="moveNo()">No</button>
+    </div>
+  </div>
 
-function sayYes() {
-// 1. Swap the display message
-document.getElementById('ask').style.display = 'none';
-document.getElementById('result').style.display = 'block';
+  <div id="result">
+    <h1>Yaaayy! See you on Valentine’s Day 💖</h1>
+  </div>
 
-// 2. Trigger the continuous confetti background
-startConfettiBackground();
-}
+  <script>
+    function moveNo() {
+      const noBtn = document.getElementById('noBtn');
 
-// Function to run continuous confetti
-function startConfettiBackground() {
-const colors = ['#ffc0cb', '#ff69b4', '#e91e63', '#d81b60', '#f06292'];
-const duration = 15 * 1000; // Run for 15 seconds (adjust as needed)
-const animationEnd = Date.now() + duration;
+      // Keep size fixed
+      noBtn.style.position = 'fixed';
 
-(function frame() {
-// Launch a burst from the left side
-confetti({
-particleCount: 2,
-angle: 60,
-spread: 55,
-origin: { x: 0 },
-colors: colors
-});
-// Launch a burst from the right side
-confetti({
-particleCount: 2,
-angle: 120,
-spread: 55,
-origin: { x: 1 },
-colors: colors
-});
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
 
-// Keep animation running until 'animationEnd' time is reached
-if (Date.now() < animationEnd) {
-requestAnimationFrame(frame);
-}
-}());
-}
-</script>
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    }
+
+    function sayYes() {
+      document.getElementById('ask').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      startConfetti();
+    }
+
+    function startConfetti() {
+      const duration = 12 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 6,
+          spread: 80,
+          origin: { x: Math.random(), y: Math.random() - 0.2 },
+          colors: ['#ff69b4', '#e91e63', '#ffc0cb', '#f06292']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script>
+
 </body>
 </html>
